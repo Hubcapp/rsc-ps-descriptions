@@ -1,0 +1,930 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Runescape Classic - server-info</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <style>
+        /* === GENERAL === */
+
+body {
+    font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    object-fit: contain;
+}
+
+.pre {
+    font-family: "Consolas", "Courier New", Courier, Monospace;
+    white-space: pre-wrap;
+}
+
+.pre--multiline {
+    margin-top: 4px;
+    padding: 8px;
+    border: 2px solid;
+    border-radius: 5px;    
+}
+
+.pre--inline {
+    padding: 2px;
+    border-radius: 3px;
+}
+
+.emoji {
+    width: 24px;
+    height: 24px;
+    margin: 0 1px;
+    vertical-align: middle;
+}
+
+.emoji--small {
+    width: 16px;
+    height: 16px;
+}
+
+.emoji--large {
+    width: 32px;
+    height: 32px;
+}
+
+.mention {
+    font-weight: 600;
+}
+
+/* === INFO === */
+
+.info {
+    display: flex;
+    max-width: 100%;
+    margin: 0 5px 10px 5px;    
+}
+
+.info__guild-icon-container {
+    flex: 0;
+}
+
+.info__guild-icon {
+    max-width: 88px;
+    max-height: 88px;
+}
+
+.info__metadata {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.info__guild-name {
+    font-size: 1.4em;
+}
+
+.info__channel-name {
+    font-size: 1.2em;
+}
+
+.info__channel-topic {
+    margin-top: 2px;
+}
+
+.info__channel-message-count {
+    margin-top: 2px;
+}
+
+.info__channel-date-range {
+    margin-top: 2px;
+}
+
+/* === CHATLOG === */
+
+.chatlog {
+    max-width: 100%;
+}
+
+.chatlog__message-group {
+    display: flex;
+    margin: 0 10px;
+    padding: 15px 0;
+    border-top: 1px solid;
+}
+
+.chatlog__author-avatar-container {
+    flex: 0;
+    width: 40px;
+    height: 40px;
+}
+
+.chatlog__author-avatar {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.chatlog__messages {
+    flex: 1;
+    min-width: 50%;
+    margin-left: 20px;
+}
+
+.chatlog__author-name {
+    font-size: 1em;
+}
+
+.chatlog__timestamp {
+    margin-left: 5px;
+    font-size: .75em;
+}
+
+.chatlog__content {
+    padding-top: 5px;
+    font-size: .9375em;
+    word-wrap: break-word;
+}
+
+.chatlog__edited-timestamp {
+    margin-left: 5px;
+    font-size: .8em;
+}
+
+.chatlog__attachment {
+    margin: 5px 0;
+}
+
+.chatlog__attachment-thumbnail {
+    max-width: 50%;
+    max-height: 500px;
+    border-radius: 3px;
+}
+
+.chatlog__embed {
+    display: flex;
+    max-width: 520px;
+    margin-top: 5px;
+}
+
+.chatlog__embed-color-pill {
+    flex-shrink: 0;
+    width: 4px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.chatlog__embed-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 10px;
+    border: 1px solid;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.chatlog__embed-content {
+    width: 100%;
+    display: flex;
+}
+
+.chatlog__embed-text {
+    flex: 1;
+}
+
+.chatlog__embed-author {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.chatlog__embed-author-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 9px;
+    border-radius: 50%;
+}
+
+.chatlog__embed-author-name {
+    font-size: .875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-title {
+    margin-bottom: 4px;
+    font-size: .875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-description {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.chatlog__embed-fields {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chatlog__embed-field {
+    flex: 0;
+    min-width: 100%;
+    max-width: 506px;
+    padding-top: 10px;
+}
+
+.chatlog__embed-field--inline {
+    flex: 1;
+    flex-basis: auto;
+    min-width: 150px;
+}
+
+.chatlog__embed-field-name {
+    margin-bottom: 4px;
+    font-size: .875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-field-value {
+    font-size: .875em;
+    font-weight: 500;
+}
+
+.chatlog__embed-thumbnail {
+    flex: 0;
+    margin-left: 20px;
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-image-container {
+    margin-top: 10px;
+}
+
+.chatlog__embed-image {    
+    max-width: 500px;
+    max-height: 400px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-footer {
+    margin-top: 10px;
+}
+
+.chatlog__embed-footer-icon {
+    margin-right: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.chatlog__embed-footer-text {
+    font-weight: 600;
+    font-size: .75em;
+}
+
+.chatlog__reactions {
+    display: flex;    
+}
+
+.chatlog__reaction {
+    margin: 6px 2px 2px 2px;
+    padding: 2px 6px 2px 2px;
+    border-radius: 3px;
+}
+
+.chatlog__reaction-emoji {
+    margin-left: 3px;
+    vertical-align: middle;
+}
+
+.chatlog__reaction-count {
+    font-size: .875em;
+    vertical-align: middle;
+}
+/* === GENERAL === */
+
+body {
+    background-color: #36393e;
+    color: #ffffffb3;
+}
+
+a {
+    color: #0096cf;
+}
+
+.pre {
+    background-color: #2f3136;
+}
+
+.pre--multiline {
+    border-color: #282b30;
+    color: #839496;
+}
+
+.mention {
+    background-color: #738bd71a;
+    color: #7289da;
+}
+
+/* === INFO === */
+
+.info__guild-name {
+    color: #ffffff;
+}
+
+.info__channel-name {
+    color: #ffffff;
+}
+
+.info__channel-topic {
+    color: #ffffff;
+}
+
+/* === CHATLOG === */
+
+.chatlog__message-group {
+    border-color: #ffffff0a;
+}
+
+.chatlog__author-name {
+    color: #ffffff;
+}
+
+.chatlog__timestamp {
+    color: #ffffff33;
+}
+
+.chatlog__edited-timestamp {
+    color: #ffffff33;
+}
+
+.chatlog__embed-content-container {
+    background-color: #2e30364d;
+    border-color: #2e303699;
+}
+
+.chatlog__embed-author-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-author-name-link {
+    color: #ffffff;
+}
+
+.chatlog__embed-title {
+    color: #ffffff;
+}
+
+.chatlog__embed-description {
+    color: #ffffff99;
+}
+
+.chatlog__embed-field-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-field-value {
+    color: #ffffff99;
+}
+
+.chatlog__embed-footer {
+    color: #ffffff99;
+}
+
+.chatlog__reaction {
+    background-color: #ffffff0a;
+}
+
+.chatlog__reaction-count {
+    color: #ffffff4d;
+}
+    </style>
+</head>
+<body>
+    
+<div class="info">
+    <div class="info__guild-icon-container">
+        <img class="info__guild-icon" src="https://cdn.discordapp.com/icons/385825080321638414/ffa56982178d70542084b087691e0595.png" />
+    </div>
+    <div class="info__metadata">
+        <div class="info__guild-name">Runescape Classic</div>
+        <div class="info__channel-name">server-info</div>
+        
+
+        <div class="info__channel-message-count">20 messages</div>
+        
+    </div>
+</div>
+
+<div class="chatlog">
+        <div class="chatlog__message-group">
+            <div class="chatlog__author-avatar-container">
+                <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/268068503615963136/1c38d0ceb88aaffcd6a6e45dea3688bb.png" />
+            </div>            
+            <div class="chatlog__messages">
+                <span class="chatlog__author-name" title="Logg#0886">Logg</span>
+                <span class="chatlog__timestamp">01-Dec-18 10:44 PM</span>
+
+                        <div class="chatlog__content">
+                            <span class="mention">@Open RSC Developer</span> <span class="mention">@RSCEmulation Staff</span> <span class="mention">@RSCRevolution Staff</span> <span class="mention">@RSCVanilla Staff</span><br /><br />If you&#39;d like to write an advertisement/description of your server in this channel, you have permission to. If one isn&#39;t written in a week or so, I&#39;ll write one for you.
+
+                        </div>
+
+
+
+                        <div class="chatlog__reactions">
+                                <div class="chatlog__reaction">
+                                    <span class="chatlog__reaction-emoji">
+                                            😃
+                                    </span>
+                                    <span class="chatlog__reaction-count">3</span>
+                                </div>
+                                <div class="chatlog__reaction">
+                                    <span class="chatlog__reaction-emoji">
+                                            <img class="emoji emoji--small" title="andrew" src="https://cdn.discordapp.com/emojis/466832262961561600.png" />
+                                    </span>
+                                    <span class="chatlog__reaction-count">2</span>
+                                </div>
+                                <div class="chatlog__reaction">
+                                    <span class="chatlog__reaction-emoji">
+                                            <img class="emoji emoji--small" title="papa" src="https://cdn.discordapp.com/emojis/479989516917014538.png" />
+                                    </span>
+                                    <span class="chatlog__reaction-count">3</span>
+                                </div>
+                        </div>
+            </div>
+        </div>
+        <div class="chatlog__message-group">
+            <div class="chatlog__author-avatar-container">
+                <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/268068503615963136/1c38d0ceb88aaffcd6a6e45dea3688bb.png" />
+            </div>            
+            <div class="chatlog__messages">
+                <span class="chatlog__author-name" title="Logg#0886">Logg</span>
+                <span class="chatlog__timestamp">08-Dec-18 12:01 PM</span>
+
+                        <div class="chatlog__content">
+                            Below are descriptions of all currently running RSC Private servers in the order in which they were originally released, given either by a representative or by the owner of each server.
+
+                                <span class="chatlog__edited-timestamp" title="06-Jan-19 05:09 PM"></span>
+                        </div>
+
+
+
+            </div>
+        </div>
+        <div class="chatlog__message-group">
+            <div class="chatlog__author-avatar-container">
+                <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/268068503615963136/1c38d0ceb88aaffcd6a6e45dea3688bb.png" />
+            </div>            
+            <div class="chatlog__messages">
+                <span class="chatlog__author-name" title="Logg#0886">Logg</span>
+                <span class="chatlog__timestamp">29-Dec-18 11:40 AM</span>
+
+
+
+                        <div class="chatlog__content">
+                            <b>=============</b><br /><b>RSCEmulation</b><br /><b>=============</b><br />Released on August 24th 2009. <br />There have been discontinuities over the years, but account data from version 1 has been importable since October of 2015.
+
+                                <span class="chatlog__edited-timestamp" title="06-Jan-19 05:24 PM"></span>
+                        </div>
+
+
+
+            </div>
+        </div>
+        <div class="chatlog__message-group">
+            <div class="chatlog__author-avatar-container">
+                <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/433301772740591617/2f377a8acacdc5ba6ba04f6ea1a0f3ce.png" />
+            </div>            
+            <div class="chatlog__messages">
+                <span class="chatlog__author-name" title="Lorin#9076">Lorin</span>
+                <span class="chatlog__timestamp">31-Dec-18 11:49 AM</span>
+
+                        <div class="chatlog__content">
+                            Greetings! We are RSCEmulation; the oldest private server, established in 2009 with an actively growing &amp; stable community of veterans &amp; enthusiasts alike working together to recreate the nostalgia and simplicity of the beloved Runescape Classic model.<br /><br />As an independently developed private server, we aim to closely replicate the authenticity and capture the magic of the oldest version of Runescape, while also introducing efficient tools &amp; features to enhance the gameplay, without retracting from the aesthetic of the original model. Preservation of Runescape Classic is an important factor in the MMORPG audience, and many players of the later Jagex-owned versions have found solace and endless fun trekking the landscape of RSCEmulation. We have a full Staff Team assimilated for the purpose of assisting the members of RSCEmulation; whether by in-game interaction, Discord, or forum. <br /><br />We also offer many various amenities &amp; integrated tools in-game to appease to both the hardcore &amp; casual players alike:<br /><br />- Portals located throughout the map to allow for quick-transportation to various towns and locations without the need for magic spells.<br />- An integrated settings toolkit supplying quick toggle options for displaying Hitpoints, Prayer, Fatigue, etc.<br />- NPC Database with included information and drop tables.<br />- Global chat enabling users to chat globally and reach the entire server.<br />- A Clan System with private chat features and rankings.<br />- Daily events hosted by staff members to give users the opportunity to compete in duels, Wilderness battles, hide &amp; seek, holiday events, and more!<br />- Options to purchase a Subscription Card to receive in-game experience bonuses, decreased timers and fatigue, and more. <a href="https://discord.gg/AFmDPpQ">https://discord.gg/AFmDPpQ</a>
+
+                                <span class="chatlog__edited-timestamp" title="31-Dec-18 01:37 PM"></span>
+                        </div>
+
+
+
+                        <div class="chatlog__content">
+                            - Livefeed updated in real-time displaying the most recent Wilderness &amp; Dueling kills.<br />- Highscores!<br />- Transfers from select private servers and retail versions of Runescape Classic.<br />- Custom achievement capes to display and denote the attainment of level 99 in a respective skill.<br />- Auction Houses to simplify the process of buying and selling equipment and supplies.<br />- AND MORE!<br /><br />We are excited to welcome all Runescape Classic enthusiasts with open arms; our community are both friendly and knowledgeable! Join us today at <a href="http://www.RSCEmulation.net">http://www.RSCEmulation.net</a> to relive the best memories of Runescape’s storied past!
+
+                                <span class="chatlog__edited-timestamp" title="31-Dec-18 12:02 PM"></span>
+                        </div>
+
+
+
+            </div>
+        </div>
+        <div class="chatlog__message-group">
+            <div class="chatlog__author-avatar-container">
+                <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/268068503615963136/1c38d0ceb88aaffcd6a6e45dea3688bb.png" />
+            </div>            
+            <div class="chatlog__messages">
+                <span class="chatlog__author-name" title="Logg#0886">Logg</span>
+                <span class="chatlog__timestamp">31-Dec-18 04:55 PM</span>
+
+                        <div class="chatlog__content">
+                            <b>=============</b><br /><b>RSCRevolution</b><br /><b>=============</b><br />Released on May 29th 2013, has run continuously since then.
+
+                                <span class="chatlog__edited-timestamp" title="06-Jan-19 05:20 PM"></span>
+                        </div>
+
+
+
+                        <div class="chatlog__reactions">
+                                <div class="chatlog__reaction">
+                                    <span class="chatlog__reaction-emoji">
+                                            ❤
+                                    </span>
+                                    <span class="chatlog__reaction-count">2</span>
+                                </div>
+                        </div>
+            </div>
+        </div>
+        <div class="chatlog__message-group">
+            <div class="chatlog__author-avatar-container">
+                <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/244228664361877505/42d5bcc05617fc160dabe4296c87acad.png" />
+            </div>            
+            <div class="chatlog__messages">
+                <span class="chatlog__author-name" title="Kleio#5128">Kleio</span>
+                <span class="chatlog__timestamp">02-Jan-19 10:10 AM</span>
+
+                        <div class="chatlog__content">
+                            Hello, I’m Kleio from RSCRevolution.<br /><br />We are the currently the most populated, most feature rich and longest, continuously running server around. RSCR represents what would have happened if Jagex did not stop developing RSC, but continued to improve the game. <br /><br />Over the past five years running, we have not only replicated most of the original game, but also made many quality of life improvements and released never before seen original content on RSC. While having many changes, the game itself is unmistakably RSC, but more enjoyable and fresh.<br /><br />RSCR has been online for 5 years now and currently has 108k+ characters in its database with over 2,000+ being active in last 48 hours, we mostly have 40 to 130 characters online, depending on time of day.<br /><br />RSCR developers are the original creators of the RSC Android client and are currently working on an OpenGL version to bring RSCR to iOS, Android and most importantly, the screen of your browser, as we all remember it.<br /><br />Most of the available servers can offer a lot of the original RSC content, we stand out by the amount and quality of unique content and QoL updates.<br /><br />Unique content: <br />- Treasure trails with 6 types of different clues, through which you can obtain trimmed armour or robes;<br />- Miniquests, which is a unique quest line, where players will obtain small tasks for rewards;<br />- Automated events that give you opportunities to have fun fights without needing to find opponents in wildy: 1v1 PvP Tournament, Free for all, Hunger Games, Survival, 1v1 and Team Deathmatching;<br />- Worldwide player hosted lottery events;<br />- Various game modes: iron man, ultimate iron man, veteran and deadman mode;<br />- Team and Party system for players to cooperate in skilling or pk’ing, share a team bank and experience while training;<br />- Wilderness content: training hotspots for extra xp, team fort to compete in with teams, drop party massacre arena,
+
+                        </div>
+
+
+
+                        <div class="chatlog__reactions">
+                                <div class="chatlog__reaction">
+                                    <span class="chatlog__reaction-emoji">
+                                            ❤
+                                    </span>
+                                    <span class="chatlog__reaction-count">2</span>
+                                </div>
+                        </div>
+                        <div class="chatlog__content">
+                            - Lots of customised sprites: on RSCR we have a lot of aesthetically fitting sprite changes to wieldable weapons, introduced trimmed armour through treasure trails, custom rares introduced through holiday events and we have skill capes;<br />- Equipment tab: on RSC you’ve only had your 30 inventory slots, RSCR has an equipment tab available for a different and more convenient gaming experience;<br />- In-game skill and quest guides, bestiary for information about NPCs and their drop tables;<br />- Highly improved banking: you can set up quick gearing, withdraw items as notes and organize your bank, 500 slots for items;<br />- Batched skilling: depending on your particular skill level, you will do more actions automatically without being required to spam click while skilling;<br />- Auction house: make purchase and sale listings, buy and exchange armour sets;<br />- Support: we have an in-game support ticket system where game moderators are notified about issues you may have, we have a 12 person staff team which has highly dedicated members, some of them have been with the server for more than three years. Staff has very powerful backend tools, logs to the best support possible;<br />- Moderator hosted events: over the years we have developed many tools and in-game features that allow our mods to host interesting events;<br />- Holiday quests and events: every year we celebrate all the major holidays, we release special quests, activities and npcs for everyone to enjoy.<br /><br />Our 2018 in review and our Discord link: <br /><a href="https://www.rscrevolution.com/viewtopic.php?id=15601">https://www.rscrevolution.com/viewtopic.php?id=15601</a> &amp; <a href="https://discord.gg/sYPSfDW">https://discord.gg/sYPSfDW</a>
+
+                                <span class="chatlog__edited-timestamp" title="15-Jan-19 05:01 PM"></span>
+                        </div>
+
+
+                        <div class="chatlog__embed">
+                            <div class="chatlog__embed-color-pill" style="background-color: rgba(79,84,92,255)"></div>
+                            <div class="chatlog__embed-content-container">
+                                <div class="chatlog__embed-content">
+                                    <div class="chatlog__embed-text">
+
+                                            <div class="chatlog__embed-title">
+                                                    <a class="chatlog__embed-title-link" href="https://www.rscrevolution.com/viewtopic.php?id=15601">2018 Year in Review - News - Forum - RSCRevolution</a>
+                                            </div>
+
+                                            <div class="chatlog__embed-description">Play OldSchool RuneScape Classic on your mobile device! Anywhere at any time! The most active and developed FREE RuneScape Classic Private Server! Come try the Old RuneScape today!</div>
+
+                                    </div>
+
+                                </div>    
+
+
+                            </div>
+                        </div>
+
+            </div>
+        </div>
+        <div class="chatlog__message-group">
+            <div class="chatlog__author-avatar-container">
+                <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/268068503615963136/1c38d0ceb88aaffcd6a6e45dea3688bb.png" />
+            </div>            
+            <div class="chatlog__messages">
+                <span class="chatlog__author-name" title="Logg#0886">Logg</span>
+                <span class="chatlog__timestamp">02-Jan-19 10:14 AM</span>
+
+                        <div class="chatlog__content">
+                            <b>=============<br />OpenRSC<br />=============</b><br />Released on August 5th 2018, 1 day before Jagex&#39;s RSC was closed.
+
+                                <span class="chatlog__edited-timestamp" title="06-Jan-19 05:19 PM"></span>
+                        </div>
+
+
+
+                        <div class="chatlog__reactions">
+                                <div class="chatlog__reaction">
+                                    <span class="chatlog__reaction-emoji">
+                                            😃
+                                    </span>
+                                    <span class="chatlog__reaction-count">1</span>
+                                </div>
+                        </div>
+            </div>
+        </div>
+        <div class="chatlog__message-group">
+            <div class="chatlog__author-avatar-container">
+                <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/386188394843209728/e6c7a0bf3f782242c93d33026fca8370.png" />
+            </div>            
+            <div class="chatlog__messages">
+                <span class="chatlog__author-name" title="Marwolf#2129">Marwolf</span>
+                <span class="chatlog__timestamp">02-Jan-19 10:44 AM</span>
+
+                        <div class="chatlog__content">
+                            Began in June 2018, <b>Open RSC</b> is an open source game that aims to replicate the original Jagex game of RuneScape Classic. The code is open for anyone that wants to contribute to its development. We are a large community of developers, collaborators, content creators, and players. Our client and server can even be downloaded and ran on your computer using the built-in scripts. It comes preloaded with the original RuneScape Classic content but can be configured to include many custom features as well. The game can be downloaded for single player, LAN use, or on a Linux VPS so you can play alone, with friends, or as your own server. We invite anyone to audit our code and to check RSC+ replays that demonstrate accurate replication of the original game.<br /><br />Our public server is operated in the same way that the original ones were. Holiday items are being dropped in the same holiday chronological order, experience rates are at 1x, quests are near fully accurate, NPC loot drops are as close to the original as RSC+ replay evidence suggests, and close monitoring occurs to prevent bots from disrupting the economy.<br /><br /><b>We never have and never will accept donations, sell subscriptions, nor accept any form of micro-transactions. It only costs $17/mo to host everything.</b> <br /><br />Additionally, we publish on our website economy numbers, statistics, chat logs, names of actual players logged in, and lots more so people can see for themselves that we do not inflate player numbers or spawn items for our own benefit. We are also the only currently operating open source RSC server, hence our name Open RSC. We invite you to come join our community and collaborate with us as we recreate and play the game that we all love.<br /><br />More projects will be announced in the future that utilize the Open RSC code base. Stay tuned!<br /><br /><a href="https://openrsc.com">https://openrsc.com</a><br /><a href="https://reddit.com/r/openrsc">https://reddit.com/r/openrsc</a><br /><a href="https://twitter.com/OpenRSC">https://twitter.com/OpenRSC</a><br /><a href="https://github.com/open-rsc/Game">https://github.com/open-rsc/Game</a><br /><a href="https://discord.gg/94vVKND">https://discord.gg/94vVKND</a>
+
+                                <span class="chatlog__edited-timestamp" title="23-Jan-19 01:59 PM"></span>
+                        </div>
+
+
+                        <div class="chatlog__embed">
+                            <div class="chatlog__embed-color-pill" style="background-color: rgba(255,255,255,1)"></div>
+                            <div class="chatlog__embed-content-container">
+                                <div class="chatlog__embed-content">
+                                    <div class="chatlog__embed-text">
+
+                                            <div class="chatlog__embed-title">
+                                                    <a class="chatlog__embed-title-link" href="https://reddit.com/r/openrsc">r/openrsc</a>
+                                            </div>
+
+
+                                    </div>
+
+                                        <div class="chatlog__embed-thumbnail-container">
+                                            <a class="chatlog__embed-thumbnail-link" href="https://styles.redditmedia.com/t5_lu6pv/styles/communityIcon_cqbpenzg5qm11.png">
+                                                <img class="chatlog__embed-thumbnail" src="https://styles.redditmedia.com/t5_lu6pv/styles/communityIcon_cqbpenzg5qm11.png" />
+                                            </a>
+                                        </div>
+                                </div>    
+
+
+                            </div>
+                        </div>
+                        <div class="chatlog__embed">
+                            <div class="chatlog__embed-color-pill" style="background-color: rgba(79,84,92,255)"></div>
+                            <div class="chatlog__embed-content-container">
+                                <div class="chatlog__embed-content">
+                                    <div class="chatlog__embed-text">
+
+                                            <div class="chatlog__embed-title">
+                                                    <a class="chatlog__embed-title-link" href="https://twitter.com/OpenRSC">OpenRSC (@OpenRSC)</a>
+                                            </div>
+
+                                            <div class="chatlog__embed-description">Official Twitter account for the Open RSC project</div>
+
+                                            <div class="chatlog__embed-fields">
+                                                    <div class="chatlog__embed-field  chatlog__embed-field--inline ">
+                                                            <div class="chatlog__embed-field-name">Tweets</div>
+                                                            <div class="chatlog__embed-field-value">3</div>
+                                                    </div>
+                                                    <div class="chatlog__embed-field  chatlog__embed-field--inline ">
+                                                            <div class="chatlog__embed-field-name">Followers</div>
+                                                            <div class="chatlog__embed-field-value">6</div>
+                                                    </div>
+                                            </div>
+                                    </div>
+
+                                        <div class="chatlog__embed-thumbnail-container">
+                                            <a class="chatlog__embed-thumbnail-link" href="https://pbs.twimg.com/profile_images/1079223172644380672/tHqd-tgY_normal.jpg">
+                                                <img class="chatlog__embed-thumbnail" src="https://pbs.twimg.com/profile_images/1079223172644380672/tHqd-tgY_normal.jpg" />
+                                            </a>
+                                        </div>
+                                </div>    
+
+
+                                    <div class="chatlog__embed-footer">
+                                                <img class="chatlog__embed-footer-icon" src="https://abs.twimg.com/icons/apple-touch-icon-192x192.png" />
+                                        
+                                        <span class="chatlog__embed-footer-text">
+                                                    Twitter
+                                                    
+
+                                        </span>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="chatlog__embed">
+                            <div class="chatlog__embed-color-pill" style="background-color: rgba(30,35,39,1)"></div>
+                            <div class="chatlog__embed-content-container">
+                                <div class="chatlog__embed-content">
+                                    <div class="chatlog__embed-text">
+
+                                            <div class="chatlog__embed-title">
+                                                    <a class="chatlog__embed-title-link" href="https://github.com/open-rsc/Game">Open-RSC/Game</a>
+                                            </div>
+
+                                            <div class="chatlog__embed-description">Open RSC Primary Repository. Contribute to Open-RSC/Game development by creating an account on GitHub.</div>
+
+                                    </div>
+
+                                        <div class="chatlog__embed-thumbnail-container">
+                                            <a class="chatlog__embed-thumbnail-link" href="https://avatars0.githubusercontent.com/u/41124845?s=400&v=4">
+                                                <img class="chatlog__embed-thumbnail" src="https://avatars0.githubusercontent.com/u/41124845?s=400&v=4" />
+                                            </a>
+                                        </div>
+                                </div>    
+
+
+                            </div>
+                        </div>
+
+                        <div class="chatlog__reactions">
+                                <div class="chatlog__reaction">
+                                    <span class="chatlog__reaction-emoji">
+                                            ❤
+                                    </span>
+                                    <span class="chatlog__reaction-count">4</span>
+                                </div>
+                        </div>
+            </div>
+        </div>
+        <div class="chatlog__message-group">
+            <div class="chatlog__author-avatar-container">
+                <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/268068503615963136/1c38d0ceb88aaffcd6a6e45dea3688bb.png" />
+            </div>            
+            <div class="chatlog__messages">
+                <span class="chatlog__author-name" title="Logg#0886">Logg</span>
+                <span class="chatlog__timestamp">02-Jan-19 10:50 AM</span>
+
+                        <div class="chatlog__content">
+                            <b>=============<br />RSCVanilla<br />=============</b><br />Released September 11th 2018.
+
+                                <span class="chatlog__edited-timestamp" title="06-Jan-19 05:20 PM"></span>
+                        </div>
+
+
+
+                        <div class="chatlog__reactions">
+                                <div class="chatlog__reaction">
+                                    <span class="chatlog__reaction-emoji">
+                                            😍
+                                    </span>
+                                    <span class="chatlog__reaction-count">3</span>
+                                </div>
+                                <div class="chatlog__reaction">
+                                    <span class="chatlog__reaction-emoji">
+                                            👀
+                                    </span>
+                                    <span class="chatlog__reaction-count">1</span>
+                                </div>
+                                <div class="chatlog__reaction">
+                                    <span class="chatlog__reaction-emoji">
+                                            👆
+                                    </span>
+                                    <span class="chatlog__reaction-count">1</span>
+                                </div>
+                                <div class="chatlog__reaction">
+                                    <span class="chatlog__reaction-emoji">
+                                            🖕
+                                    </span>
+                                    <span class="chatlog__reaction-count">2</span>
+                                </div>
+                                <div class="chatlog__reaction">
+                                    <span class="chatlog__reaction-emoji">
+                                            <img class="emoji emoji--small" title="rs2dead" src="https://cdn.discordapp.com/emojis/466804994801139714.png" />
+                                    </span>
+                                    <span class="chatlog__reaction-count">2</span>
+                                </div>
+                        </div>
+            </div>
+        </div>
+        <div class="chatlog__message-group">
+            <div class="chatlog__author-avatar-container">
+                <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/268068503615963136/1c38d0ceb88aaffcd6a6e45dea3688bb.png" />
+            </div>            
+            <div class="chatlog__messages">
+                <span class="chatlog__author-name" title="Logg#0886">Logg</span>
+                <span class="chatlog__timestamp">16-Jan-19 07:13 PM</span>
+
+                        <div class="chatlog__content">
+                            The RSCVanilla team has declined to write their own description of their server. Since the purpose of this channel is to provide a fair description for all known currently running RSC private servers, I’ve assembled a collection of their own words.
+
+                        </div>
+
+
+
+                        <div class="chatlog__content">
+                            ------------<br /><br />A description of RSCVanilla in their own words: <span class="pre pre--inline">RSCVanillas goal was to replicate the remaning bits of RuneScape Classic. <br />We were also prepared for players to be requesting new content. That however was something our player base was STRONGLY against, you wanted it original &amp; authentic and by no means could there be QoL upgrades or non-authentic content.</span><br /><br />However, this is a turbulent time for RSCVanilla, as the development team behind it, (Zell aka David aka Fate &amp; Kevin), recently announced their retirement from the RSC Private Server scene. They state: <span class="pre pre--inline">WE WILL NOT shutdown RSCVanilla, it will be running (next to unsupported) and we have personally paid for all the expenses every month out of our own pocket and will keep on doing so.</span> Despite this proclamation of being “next to unsupported” and “officially quitting RSC”, they also claim “bugs will be solved when Zell has the time to fix them.”<br /><br />I’ll avoid unnecessary speculation here, since I am not a wizard.<br /><br />If you’d like to read more about the state of RSCVanilla, the quotes from this post come from:<br /><a href="https://www.runescapeclassic.org/topic/170-ending-the-rsc-era-rscvanilla-will-still-remain-online/">https://www.runescapeclassic.org/topic/170-ending-the-rsc-era-rscvanilla-will-still-remain-online/</a><br /><br />If you’re interested in joining the RSCVanilla community, you can find their website at &lt;<a href="https://www.runescapeclassic.org&gt">https://www.runescapeclassic.org&gt</a>; and their discord server at <a href="https://discordapp.com/invite/RduDh4w">https://discordapp.com/invite/RduDh4w</a>
+
+                                <span class="chatlog__edited-timestamp" title="16-Jan-19 07:30 PM"></span>
+                        </div>
+
+
+                        <div class="chatlog__embed">
+                            <div class="chatlog__embed-color-pill" style="background-color: rgba(79,84,92,255)"></div>
+                            <div class="chatlog__embed-content-container">
+                                <div class="chatlog__embed-content">
+                                    <div class="chatlog__embed-text">
+
+                                            <div class="chatlog__embed-title">
+                                                    <a class="chatlog__embed-title-link" href="https://www.runescapeclassic.org/topic/170-ending-the-rsc-era-rscvanilla-will-still-remain-online/">Ending the RSC era |  RSCVanilla will still remain online | Announ...</a>
+                                            </div>
+
+                                            <div class="chatlog__embed-description">Official community site for RuneScape Classic: Vanilla.</div>
+
+                                    </div>
+
+                                        <div class="chatlog__embed-thumbnail-container">
+                                            <a class="chatlog__embed-thumbnail-link" href="https://www.runescapeclassic.org/assets/images/slider/vanilla_logo.png">
+                                                <img class="chatlog__embed-thumbnail" src="https://www.runescapeclassic.org/assets/images/slider/vanilla_logo.png" />
+                                            </a>
+                                        </div>
+                                </div>    
+
+
+                            </div>
+                        </div>
+
+                        <div class="chatlog__reactions">
+                                <div class="chatlog__reaction">
+                                    <span class="chatlog__reaction-emoji">
+                                            ❤
+                                    </span>
+                                    <span class="chatlog__reaction-count">1</span>
+                                </div>
+                                <div class="chatlog__reaction">
+                                    <span class="chatlog__reaction-emoji">
+                                            <img class="emoji emoji--small" title="rs2dead" src="https://cdn.discordapp.com/emojis/466804994801139714.png" />
+                                    </span>
+                                    <span class="chatlog__reaction-count">1</span>
+                                </div>
+                        </div>
+            </div>
+        </div>
+        <div class="chatlog__message-group">
+            <div class="chatlog__author-avatar-container">
+                <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/268068503615963136/1c38d0ceb88aaffcd6a6e45dea3688bb.png" />
+            </div>            
+            <div class="chatlog__messages">
+                <span class="chatlog__author-name" title="Logg#0886">Logg</span>
+                <span class="chatlog__timestamp">19-Jan-19 05:05 PM</span>
+
+                        <div class="chatlog__content">
+                            <b>=============<br />RSCDawn<br />=============</b><br />Released January 18th 2019.
+
+                                <span class="chatlog__edited-timestamp" title="19-Jan-19 05:05 PM"></span>
+                        </div>
+
+
+
+            </div>
+        </div>
+        <div class="chatlog__message-group">
+            <div class="chatlog__author-avatar-container">
+                <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/261521521745461250/b60f90cddd8b2f3f15b770b0f6fd6954.png" />
+            </div>            
+            <div class="chatlog__messages">
+                <span class="chatlog__author-name" title="singlehandedsailor#7223">singlehandedsailor</span>
+                <span class="chatlog__timestamp">10-Feb-19 08:38 AM</span>
+
+                        <div class="chatlog__content">
+                            Hello, <br /><br /><i>It&#39;s Bl0dzy here speaking behalf of RSCDawn Team<br /><br />RSCDawn launched in 18th January 2019 and the goal is to bring fun and unseen features for players to enjoy.<br /><br />I&#39;ve always wanted to do something for the community but so far only done private servers for people I know, never advertised anything but people who played those always said &quot;you should make a real server&quot; I wasn&#39;t really up for the task until we put our heads together with couple mates and decided to push something out.. <br /><br />To make it happen we all had couple weeks off our regular jobs to make the preparations... And so Dawn was born.<br /><br />We will be keeping the main gameplay feeling as &quot;classic as possible&quot; and for most changes in game there will be a vote.</i><br /><br />Some current custom features are the following:<br />- Slayer<br />- Enhanched Firemaking skill<br />- Lots of QoL improvements to reduce wrist problems<br />- Event system<br />- Improved FPS and client respond time<br />- Custom discord bot with lots of features, including combat/maxhit calculators<br /><br />Discord: <a href="https://discord.gg/aUrwfcA">https://discord.gg/aUrwfcA</a> <br />Website: <a href="https://www.rscdawn.com">https://www.rscdawn.com</a>
+
+                                <span class="chatlog__edited-timestamp" title="19-Feb-19 10:33 PM"></span>
+                        </div>
+
+
+                        <div class="chatlog__embed">
+                            <div class="chatlog__embed-color-pill" style="background-color: rgba(79,84,92,255)"></div>
+                            <div class="chatlog__embed-content-container">
+                                <div class="chatlog__embed-content">
+                                    <div class="chatlog__embed-text">
+
+                                            <div class="chatlog__embed-title">
+                                                    <a class="chatlog__embed-title-link" href="https://www.rscdawn.com">RSCDawn - Classic server</a>
+                                            </div>
+
+                                            <div class="chatlog__embed-description">Runescape classic private server</div>
+
+                                    </div>
+
+                                </div>    
+
+
+                            </div>
+                        </div>
+
+                        <div class="chatlog__reactions">
+                                <div class="chatlog__reaction">
+                                    <span class="chatlog__reaction-emoji">
+                                            <img class="emoji emoji--small" title="523" src="https://cdn.discordapp.com/emojis/408619439710535700.png" />
+                                    </span>
+                                    <span class="chatlog__reaction-count">2</span>
+                                </div>
+                        </div>
+            </div>
+        </div>
+</div>
+
+</body>
+</html>
